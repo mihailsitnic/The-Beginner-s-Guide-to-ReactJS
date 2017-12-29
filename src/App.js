@@ -3,13 +3,28 @@ import logo from './logo.svg';
 import './App.css';
 
 
-const Message = (props) => <div>{props.msg}</div>
-const element = (
-  <div className="container">
-    <Message msg='Hello, World!' />
-    <Message msg='Goodbye, World!' />
-  </div>
-)
+function SayHello(props) {
+  return (
+    <div>
+      Hello {props.firstName} {props.lastName}!
+    </div>
+  )
+}
+
+const propTypes = {
+  string(props, propName, componentName) {
+    if (typeof props[propName] !== 'string') {
+      return new Error(
+        `typeof props[propName] !== 'string'`
+      )
+    }
+  }
+}
+
+SayHello.propTypes = {
+  firstName: propTypes.string,
+  lastName: propTypes.string,
+}
 
 class App extends Component {
   render() {
@@ -19,9 +34,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          {element}
-        </p>
+        <SayHello firstName={true} />
       </div>
     );
   }
