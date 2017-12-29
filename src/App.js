@@ -2,28 +2,11 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-
-function SayHello(props) {
-  return (
-    <div>
-      Hello {props.firstName} {props.lastName}!
-    </div>
-  )
-}
-
-const propTypes = {
-  string(props, propName, componentName) {
-    if (typeof props[propName] !== 'string') {
-      return new Error(
-        `typeof props[propName] !== 'string'`
-      )
-    }
+function Message({message}) {
+  if (!message) {
+    return <div>No Message</div>
   }
-}
-
-SayHello.propTypes = {
-  firstName: propTypes.string,
-  lastName: propTypes.string,
+  return <div>{message}</div>
 }
 
 class App extends Component {
@@ -34,7 +17,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <SayHello firstName={true} />
+        <Message message={null} />
       </div>
     );
   }
