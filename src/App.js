@@ -3,12 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 
 
-const props = {
-  className: 'container',
-  children: 'Hello, World!'
-}
+const Message = (props) => <div>{props.msg}</div>
 const element = (
-  <div {...props} />
+  <div className="container">
+    <Message msg='Hello, World!' />
+    <Message msg='Goodbye, World!' />
+  </div>
 )
 
 class App extends Component {
