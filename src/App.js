@@ -2,35 +2,38 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function Box({
-  style,
-  size,
-  className = '',
-  ...rest
-}) {
-  const sizeClassName = size ? `box-${size}` : '';
-  return(
-    <div
-      className={`box ${className} ${sizeClassName}`}
-      style={{padding: 20, ...style}}
-      {...rest}
-    />
-  )
+class StopWatch extends React.Component {
+  state = {lapse: 0, running: false}
+  handleRunClick = () => {
+    this.setState(state => {
+      if(state.running) {
+        clearInterval(this.timer)
+      } else {
+        const startTime = Date.now() - this.state.lapse
+        this.timer = setInterval(() => {
+          this.setState({lapse: Date.now() - startTime})
+        })
+      }
+      return {running: !state.running}
+    })
+  }
+  handleClearClick = () => {
+    clearInterval(this.timer)
+    this.setState({lapse: 0, running: false})
+  }
+  render() {
+    const {lapse, running} = this.state
+    return (
+      <div>
+        <label>{lapse}ms</label>
+        <button onClick={this.handleRunClick}>{running ? 'Stop' : 'Start'}</button>
+        <button onClick={this.handleClearClick}>Clear</button>
+      </div>
+    )
+  }
 }
 
-const element = (
-  <div>
-    <Box
-      size='small'
-      style={{backgroundColor: 'lightblue'}}>Small Box</Box>
-    <Box
-      size='medium'
-      style={{backgroundColor: 'pink'}}>Medium Box</Box>
-    <Box
-      size='large'
-      style={{backgroundColor: 'orange'}}>Large Box</Box>
-  </div>
-)
+const element = <StopWatch />
 
 class App extends Component {
   render() {
