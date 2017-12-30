@@ -38,6 +38,23 @@
   height: 160px;
 }
 
+.Tilt {
+  background-image: linear-gradient(135deg, #ff00ba 0%, #fae713 100%);
+  transform-style: preserve-3d;
+  margin: 0 auto;
+}
+
+.Tilt-inner {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translateZ(30px) translateX(-50%) translateY(-50%);
+  text-shadow: 1px 1px 2px rgba(0,0,0,.8);
+  color: white;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
