@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Tilt from 'react-tilt';
 
-
-
-const element = (
-  <Tilt className="Tilt" options={{ max : 25 }} style={{ height: 250, width: 250 }} >
-   <h1 className="Tilt-inner">Hello, React!</h1>
-  </Tilt>
-)
-
+class NameForm extends React.Component {
+  handleSubmit = event => {
+    event.preventDefault()
+    console.log({target: event.target});
+    console.log(event.target[0].value);
+  }
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          name:
+          <input type='text' />
+        </label>
+        <button type='submit'>Submit</button>
+      </form>
+    )
+  }
+}
 
 class App extends Component {
   render() {
@@ -20,7 +29,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        {element}
+        <NameForm />
       </div>
     );
   }
