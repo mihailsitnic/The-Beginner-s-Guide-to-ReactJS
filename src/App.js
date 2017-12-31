@@ -1,63 +1,56 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
 
 
-class App extends Component {
-  static allItems = [
-    {id: 'a', value: 'apple'},
-    {id: 'o', value: 'orange'},
-    {id: 'g', value: 'grape'},
-    {id: 'p', value: 'pear'},
-  ]
+class UserCompany extends Component {
+  state = {company: undefined}
 
-  state = {items: []}
-
-  addItem = () => {
-    this.setState(({items}) => ({
-      items: [
-        ...items,
-        App.allItems.find(
-          i => !items.includes(i),
-        ),
-      ],
-    }))
-  }
-
-  removeItem = item => {
-    this.setState(({items}) => ({
-      items: items.filter(i => i !== item),
-    }))
+  componentDidMount() {
+    axios({
+      url: 'https://api.github.com/graphql',
+      method: 'post',
+      data: {
+        query: `{
+          user(login: "${this.props.username}") {
+            company
+          }
+        }`,
+      },
+      headers: {Authorization: `bearer 7b3d27ad5a0e9f2ad225837d2c5746993856716a`},
+    }).then(response => {
+      this.setState({
+        company: response.data.data.user.company,
+      })
+    })
   }
 
   render() {
-    const {items} = this.state
+    return this.state.company || 'Unknow'
+  }
+}
+
+const username = 'mihailsitnic'
+const element = (
+  <div>
+    <div>
+      {`@${username} works at `}
+      <UserCompany username={username} />
+    </div>
+  </div>
+)
+
+
+class App extends Component {
+  render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <button
-          disabled={
-            items.length >= App.allItems.length
-          }
-          onClick={this.addItem}
-          >+</button>
-          {items.map((i, index) => (
-            <div key={i.id}>
-              <button
-                onClick={() => this.removeItem(i)}
-                >-</button>
-                {i.value}:
-                <input />
-            </div>
-          ))}
-
-
-        {App.allItems.map(item => (
-          <div key={item.id}>{item.value}</div>
-        ))}
+        {element}
       </div>
     );
   }
